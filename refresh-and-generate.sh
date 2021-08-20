@@ -12,14 +12,17 @@ CHECK_SERVER_HEALTH () {
 }
 
 SET_AUTHENTICATION () {
+    # As depending on the auth method we need to pass different number and types of headers to curl
+    # we put the headers in an array and explode them using "${RF_AUTH[@]/#/-H}"resulting in
+    # -HIUCLID6-USER: xxxx -HIUCLID6PASS: yyy which bash and curl understand. See https://stackoverflow.com/questions/28705723/
+    RF_AUTH=() #empty arrray of auth headers
     if [ "$RF_AUTH_IDM" = true ];
     then
-        RF_AUTH="--header \"Authorization: Token ${RF_TOKEN}"
+        RF_AUTH[0]="Authorization: Token ${RF_TOKEN}"
     else
-        RF_AUTH="--header \"IUCLID6-USER: ${RF_USERNAME}\" \
-                --header \"IUCLID6-PASS: ${RF_PASSWORD}\""
+        RF_AUTH[0]="IUCLID6-USER: ${RF_USERNAME}"
+        RF_AUTH[1]="IUCLID6-PASS: ${RF_PASSWORD}"
     fi
-
 }
 
 CREATE_SCRIPT_FOLDERS () {
@@ -101,7 +104,7 @@ CREATE_REPORT () {
     echo -e "Generating report for ${RF_RED}$i${RF_NC} and storing it in $RF_REPORT_FILENAME"
     RF_OLD_REPORT=$(cat "$RF_REPORT_FILENAME")
     curl -s --location --insecure --request GET ${RF_GENERATE_URL} \
-    $RF_AUTH \
+    "${RF_AUTH[@]/#/-H}" \
     --header "Accept: ${RF_ACCEPT_CONTENT}" \
     > "$RF_REPORT_FILENAME"
 
@@ -148,7 +151,6 @@ REFRESH_TEMPLATE () {
     fi
     echo $RF_ZIP_COMMAND
     (cd "$RF_TEMP_PATH" && "$RF_ZIP_COMMAND" -r -q "package.zip" ./*)
-
     RF_REFRESH_URL=$RF_SERVER/iuclid6-ext/api/ext/v1/reports?id=$RF_REPORT_ID
     RF_REPORT_URL=$RF_SERVER/iuclid6-web/reports/$RF_REPORT_NAME/$RF_REPORT_ID
     echo -e "Refreshing ${RF_RED}$RF_REPORT_NAME${RF_NC} $RF_REPORT_URL"
@@ -156,7 +158,7 @@ REFRESH_TEMPLATE () {
     --header 'Content-Type: application/vnd.iuclid6.report' \
     --header 'Accept: application/json, text/plain, */*' \
     --header "report: ${RF_REPORT_ID}" \
-    $RF_AUTH \
+    "${RF_AUTH[@]/#/-H}" \
     --data-binary "@${RF_REPORT_ZIP_PATH}"
     echo -e "\n\n"
 }
