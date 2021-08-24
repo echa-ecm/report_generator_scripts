@@ -36,10 +36,10 @@ export RF_TOKEN=<IDM redeemed access token>
 1. Click on the second "redeem" entry in the list to the left of the Network tab
 ![Redeem entries in the requests list](../doc/img/redeem-entries.png)
 1. If the second 'Redeem' option does not appear, select 'All' next to the filter
-
+![See second Redeem](../doc/img/developer_tools_screenshot_find_second_redeem_all.png)
 1. Click on the Preview tab of the redeem entry
 ![Preview tab with access token](../doc/img/preview-tab.png)
-1. Copy the access content value to the  RF_TOKEN entry in the .env file
+1. Copy and paste the access content value to the RF_TOKEN entry in the .env file
 
 ## Run and generate the report
 
@@ -49,4 +49,4 @@ In the 'Git Bash' termninal, the refresh-and-generate.sh script needs to include
 ./refresh-and-generate.sh pcn_html_report.env --diff --idm
 ```
 
-Remember that you need to update the .env file with  a fresh IDM access token before running the script. It expires every 10 minutes approximately.
+Remember that you need to update the .env file with a fresh IDM access token before running the script. It expires every 10 minutes approximately.
