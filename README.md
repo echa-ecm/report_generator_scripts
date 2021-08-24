@@ -22,7 +22,7 @@ To use and run the report generator  Bash script, you will need:
 - If using Linux or Mac you need to install the GNU Zip and GIT utilities into your system and use the provided Terminal application
 - A working FTL report template uploaded into the IUCLID report manager
 
-If you want to run the script using a cloud instance, please follow the steps [here](/doc/idm-based-setup.md)
+If you want to run the script from a IUCLID Cloud instance, please follow the steps [here](/doc/idm-based-setup.md)
 ## Setup of the script
 
 Open your terminal from the folder you want the tool to be installed, e.g., C:\Users\<username>\Documents\workspace. In Windows you can right-click on top of the folder and select Git Bash Here.
