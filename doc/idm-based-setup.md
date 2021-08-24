@@ -32,11 +32,11 @@ export RF_TOKEN=<IDM redeemed access token>
 1. Start the browser developer tools (Ctrl+Shift+I)
 1. Access your ECHA account management page from the browser tab, aka [ULEM](https://ulem.echa.europa.eu/ui/dashboard)
 1. In the developer tools select the Network tab
-![Network tab in the browser developer tools](../doc/img/network-tab.png =500x250)
+![Network tab in the browser developer tools](../doc/img/network-tab.png =700x300)
 1. Click on the second "redeem" entry in the list to the left of the Network tab
 ![Redeem entries in the requests list](../doc/img/redeem-entries.png)
 1. If the second 'Redeem' option does not appear, select 'All' next to the filter
-![See second Redeem](../doc/img/developer_tools_screenshot_find_second_redeem_all.png)
+![See second Redeem](../doc/img/developer_tools_screenshot_find_second_redeem_all.png =600x210)
 1. Click on the Preview tab of the redeem entry
 ![Preview tab with access token](../doc/img/preview-tab.png)
 1. Copy and paste the access content value to the RF_TOKEN entry in the .env file
