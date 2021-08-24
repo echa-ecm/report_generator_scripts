@@ -2,10 +2,10 @@
 
 ## Background
 
-When a IUCLD instance is hosted in the ECHA Cloud services, a slightly different bash script is required. Cloud instances depend on ECHA's account management (IDM). The script implements a mechanism to run in these instances but a with a couple of limitations:
+When a IUCLD instance is hosted in the ECHA Cloud services, a slightly different bash script is required to automatically generate reports. Cloud instances depend on ECHA's account management (IDM). The script implements a mechanism to refresh and generate reports from IUCLID Cloud instances but a with a couple of limitations:
 
-* You need to locate the credentials to use in bash script
-* The setup is only valid temporarily (~10 mins), the credentials provided to the script may expire in the middle of the execution of large batches of datasets and dossiers.
+* You need to locate your own credentials to use in the bash script
+* The setup is only valid temporarily (~10 mins), the credentials provided in the script may expire in the middle of the execution of large batches of datasets and dossiers.
 
 ## Additional requirements
 
@@ -36,7 +36,6 @@ export RF_TOKEN=<IDM redeemed access token>
 1. Click on the second "redeem" entry in the list to the left of the Network tab
 ![Redeem entries in the requests list](../doc/img/redeem-entries.png)
 1. If the second 'Redeem' option does not appear, select 'All' next to the filter
-
 ![See second Redeem](../doc/img/developer_tools_screenshot_find_second_redeem_all.png)
 1. Click on the Preview tab of the redeem entry
 ![Preview tab with access token](../doc/img/preview-tab.png)
