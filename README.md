@@ -159,9 +159,9 @@ Here is an example of the command line when opening the  Bash command line from 
 A different script let's you run all refresh-and-generate script with all the .env files in a directory
 
 ```
-./multiple-refresh-genearation.sh --envs-path <path to .envs folder>.envs [--idm <IDM access token>]
+./multiple-refresh-genearation.sh --envs-path <path to .envs folder> [--idm <IDM access token>]
 ```
 
 The script accepts the following parameters:
-1. `--envs-path <path to .envs folder>` Optional, defaults to current directory.. It can be set to anything else, e.g., '`./envs/`' for a subfolder called 'envs', you can get the current directory using the command `pwd` in the Git Bash console.
+1. `--envs-path <path to .envs folder>` Optional, defaults to current directory. It can be set to anything else, e.g., '`./envs/`' for a subfolder called 'envs', you can get the current directory using the command `pwd` in the Git Bash console.
 1. `--idm <IDM access token>`  Optional parameter. The IDM access token can be obtained as described in [Cloud setup instructions](/doc/idm-based-setup.md). When used, the RF_TOKEN line in the .envs files need to be commented (i.e., the line needs to start with #)
