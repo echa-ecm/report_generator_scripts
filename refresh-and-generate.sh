@@ -16,13 +16,8 @@ SET_AUTHENTICATION () {
     # we put the headers in an array and explode them using "${RF_AUTH[@]/#/-H}"resulting in
     # -HIUCLID6-USER: xxxx -HIUCLID6PASS: yyy which bash and curl understand. See https://stackoverflow.com/questions/28705723/
     RF_AUTH=() #empty arrray of auth headers
-    if [ "$RF_AUTH_IDM" = true ];
-    then
-        RF_AUTH[0]="Authorization: Token ${RF_TOKEN}"
-    else
-        RF_AUTH[0]="IUCLID6-USER: ${RF_USERNAME}"
-        RF_AUTH[1]="IUCLID6-PASS: ${RF_PASSWORD}"
-    fi
+    RF_AUTH[0]="IUCLID6-USER: ${RF_USERNAME}"
+    RF_AUTH[1]="IUCLID6-PASS: ${RF_PASSWORD}"
 }
 
 CREATE_SCRIPT_FOLDERS () {
@@ -38,7 +33,7 @@ then
     exit 1
 else
     set -o allexport
-    source "$1"
+    source "$1" || exit 1
     set +o allexport
 fi
 
@@ -63,9 +58,6 @@ do
     RF_REFRESH_TEMPLATE=false
     fi
 
-    if [ "$arg" = "--idm" ]; then
-    RF_AUTH_IDM=true
-    fi
 done
 
 SET_AUTHENTICATION

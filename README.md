@@ -22,7 +22,6 @@ To use and run the report generator  Bash script, you will need:
 - If using Linux or Mac you need to install the GNU Zip and GIT utilities into your system and use the provided Terminal application
 - A working FTL report template uploaded into the IUCLID report manager
 
-If you want to run the script from a IUCLID Cloud instance, please follow the steps [here](/doc/idm-based-setup.md)
 ## Setup of the script
 
 Open your terminal from the folder you want the tool to be installed, e.g., C:\Users\<username>\Documents\workspace. In Windows you can right-click on top of the folder and select Git Bash Here.
@@ -159,9 +158,8 @@ Here is an example of the command line when opening the  Bash command line from 
 A different script let's you run all refresh-and-generate script with all the .env files in a directory
 
 ```
-./multiple-refresh-genearation.sh --envs-path <path to .envs folder> [--idm <IDM access token>]
+./multiple-refresh-genearation.sh <path to .envs folder>
 ```
 
 The script accepts the following parameters:
-1. `--envs-path <path to .envs folder>` Optional, defaults to current directory. It can be set to anything else, e.g., '`./envs/`' for a subfolder called 'envs', you can get the current directory using the command `pwd` in the Git Bash console.
-1. `--idm <IDM access token>`  Optional parameter. The IDM access token can be obtained as described in [Cloud setup instructions](/doc/idm-based-setup.md). When used, the RF_TOKEN line in the .envs files need to be commented (i.e., the line needs to start with #)
+1. `<path to .envs folder>` It can be set to any path, e.g., '`./envs/`' for a subfolder in this repo called 'envs'. Wrap the path around `"` if the path contains spaces.
