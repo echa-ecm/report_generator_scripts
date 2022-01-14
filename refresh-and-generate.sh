@@ -38,7 +38,7 @@ then
     exit 1
 else
     set -o allexport
-    source "$1"
+    source "$1" || exit 1
     set +o allexport
 fi
 

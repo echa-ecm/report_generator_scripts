@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 MRF_ENVS_PATH="."
 POSITIONAL=()
 while [[ $# -gt 0 ]]; do
