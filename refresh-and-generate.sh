@@ -11,6 +11,31 @@ CHECK_SERVER_HEALTH () {
     fi
 }
 
+GET_IDM_ACCESS_TOKEN () {
+    # If jq is not in the path we run the one included in the distribution
+    if ! command -v jq &> /dev/null;
+    then
+        RF_JQ_COMMAND="$RF_PWD/bin/jq-win64"
+    else
+        RF_JQ_COMMAND="jq"
+    fi
+
+    IFS= read -p 'Username: ' RF_USERNAME
+    IFS= read -s -p 'Password please: ' RF_PASSWORD
+    echo
+    RF_AUTH_RESPONSE=$(curl -s --insecure --request POST $RF_IDP/api/token/issue -d "username=$RF_USERNAME&password=$RF_PASSWORD")
+    unset RF_USERNAME
+    unset RF_PASSWORD
+
+    if [[ $RF_AUTH_RESPONSE == *"access_token"* ]];
+    then
+        RF_TOKEN=$(echo $RF_AUTH_RESPONSE | "$RF_JQ_COMMAND" -r ".access_token")
+    else
+        echo "Problems login in with idm, enter correct credentials"
+        exit 1
+    fi
+}
+
 SET_AUTHENTICATION () {
     # As depending on the auth method we need to pass different number and types of headers to curl
     # we put the headers in an array and explode them using "${RF_AUTH[@]/#/-H}"resulting in
@@ -18,6 +43,7 @@ SET_AUTHENTICATION () {
     RF_AUTH=() #empty arrray of auth headers
     if [ "$RF_AUTH_IDM" = true ];
     then
+        GET_IDM_ACCESS_TOKEN
         RF_AUTH[0]="Authorization: Token ${RF_TOKEN}"
     else
         RF_AUTH[0]="IUCLID6-USER: ${RF_USERNAME}"
@@ -149,7 +175,7 @@ REFRESH_TEMPLATE () {
     else
         RF_ZIP_COMMAND="zip"
     fi
-    echo $RF_ZIP_COMMAND
+
     (cd "$RF_TEMP_PATH" && "$RF_ZIP_COMMAND" -r -q "package.zip" ./*)
     RF_REFRESH_URL=$RF_SERVER/iuclid6-ext/api/ext/v1/reports?id=$RF_REPORT_ID
     RF_REPORT_URL=$RF_SERVER/iuclid6-web/reports/$RF_REPORT_NAME/$RF_REPORT_ID
@@ -161,6 +187,7 @@ REFRESH_TEMPLATE () {
     "${RF_AUTH[@]/#/-H}" \
     --data-binary "@${RF_REPORT_ZIP_PATH}"
     echo -e "\n\n"
+
 }
 
 if [ "$RF_REFRESH_TEMPLATE" = true ];
