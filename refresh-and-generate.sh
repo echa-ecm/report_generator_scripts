@@ -1,5 +1,6 @@
 #!/bin/bash
 
+
 CHECK_SERVER_HEALTH () {
     RF_TEST=$(curl -s --location --insecure --request GET $RF_SERVER/iuclid6-ext/api/sys/health)
     if [[ $RF_TEST == *"\"healthy\":true"* ]];
@@ -12,14 +13,6 @@ CHECK_SERVER_HEALTH () {
 }
 
 GET_IDM_ACCESS_TOKEN () {
-    # If jq is not in the path we run the one included in the distribution
-    if ! command -v jq &> /dev/null;
-    then
-        RF_JQ_COMMAND="$RF_PWD/bin/jq-win64"
-    else
-        RF_JQ_COMMAND="jq"
-    fi
-
     IFS= read -p 'Username: ' RF_USERNAME
     IFS= read -s -p 'Password please: ' RF_PASSWORD
     echo
@@ -29,7 +22,7 @@ GET_IDM_ACCESS_TOKEN () {
 
     if [[ $RF_AUTH_RESPONSE == *"access_token"* ]];
     then
-        RF_TOKEN=$(echo $RF_AUTH_RESPONSE | "$RF_JQ_COMMAND" -r ".access_token")
+         RF_TOKEN=$(echo $RF_AUTH_RESPONSE | sed -E 's/.*"access_token":"?([^,"]*)"?.*/\1/')
     else
         echo "Problems login in with idm, enter correct credentials"
         exit 1
@@ -229,4 +222,5 @@ done
 rm "$RF_TEMP_PATH/styles/"*
 rm "$RF_TEMP_PATH/ftl/"*
 rm "$RF_TEMP_PATH/mainFtl/"*
+set +x
 exit
